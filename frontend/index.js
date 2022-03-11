@@ -29,7 +29,7 @@ function fetch_usuario_json() {
     });
 }
 
-function load_modal_update_usuario(element){
+function load_modal_usuario(element){
 
     let url = "http://localhost:3000/user/" + element.id
 
@@ -58,22 +58,25 @@ function update_usuario(){
     let url = "http://localhost:3000/user/" + id.value
     let new_name = document.getElementById("input_nome_update").value
 
+    let body = {
+        "name" : new_name
+    }
+
     fetch(url, {
         method : 'PATCH',
-        headers: {
-        },
-        body: {
-            name : new_name
-        }
-    }).then(response => response.json()).then(json => {
+        mode :'cors',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+    }).then(response => response.json() ).then(json => {
         console.log(json)
     });
 
 }
 
-function delete_usuario(id){
+function delete_usuario(){
 
-    let url = "http://localhost:3000/user/" + id
+    let id = document.getElementById("input_id_update")
+    let url = "http://localhost:3000/user/" + id.value
 
     fetch(url, {
         method : 'DELETE',
@@ -81,5 +84,27 @@ function delete_usuario(id){
 
 }
 
+function add_usuario(){
+    let name_input = document.getElementById("input_nome").value
+    
+    let cpf_input = document.getElementById("input_cpf").value
+
+    let url = "http://localhost:3000/user"
+    
+    let body = {
+        "name" : name_input,
+        "cpf" : cpf_input
+    }
+    fetch(url, {
+        method : 'POST',
+        mode: 'cors',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+    }).then(response => response.json() ).then(json => {
+        console.log(json)
+        location.reload();
+    });
+
+}
 
 fetch_usuario_json()
